@@ -17,3 +17,6 @@ Description,label,variable,distribution,lower,median,upper,source
 ,,ppm_risk_1_reduction,norm,20,,30,
 ,,ppm_risk_2_reduction,norm,50,,70,
 ,,ppm_risk_3_reduction,norm,10,,20,
+,,,,,,,
+,,n_years,const,1,,1,
+,,var_CV,posnorm,5,,20,

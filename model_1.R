@@ -1,4 +1,4 @@
-
+library(decisionSupport)
 
 yield_reduction<-function(x, varnames)
 {
@@ -36,9 +36,9 @@ yield_reduction<-function(x, varnames)
   
 
 }
-
+production<-function(x, varnames){
 # Initialize variables
-total_yield = 1000 # Total yield in pounds
+total_yield = vv(yield, var_CV, n_years) # Total yield in kg
 disease_loss = 0.05 # Disease causes a 5% loss
 pest_loss = 0.03 # Pest infestation causes a 3% loss
 nutrient_loss = 0.02 # Nutrient deficiencies cause a 2% loss
@@ -46,8 +46,36 @@ sunscald_loss = 0.01 # Sunscald causes a 1% loss
 blossom_end_loss = 0.02 # Blossom end rot causes a 2% loss
 watering_loss = 0.01 # Overwatering or under watering causes a 1% loss
 
+for (priming in c(FALSE, TRUE)){
+  if(priming){
+    # Calculate total yield loss
+    total_loss = (disease_loss + pest_loss + nutrient_loss + sunscald_loss + blossom_end_loss + watering_loss)*vv(priming_risk_1_reduction, var_CV, n_years)
+    # Calculate final yield
+    final_yield_priming = total_yield - (total_yield * total_loss) - (total_yield*vv(priming_yield_reduction, var_CV, n_years)
+  } else {
+    # Calculate total yield loss
+    total_loss = disease_loss + pest_loss + nutrient_loss + sunscald_loss + blossom_end_loss + watering_loss
+  # Calculate final yield
+  final_yield = total_yield - (total_yield * total_loss)
+  }
+}
 # Calculate total yield loss
 total_loss = disease_loss + pest_loss + nutrient_loss + sunscald_loss + blossom_end_loss + watering_loss
 
 # Calculate final yield
 final_yield = total_yield - (total_yield * total_loss)
+
+return(list(final_yield, final_yield_priming))
+}
+
+decisionSupport("input.csv",
+                outputPath='results',
+                welfareFunction=production,
+                numberOfModelRuns=10000,
+                functionSyntax="plainNames")
+
+make_variables<-function(est,n=1)
+{ x<-random(rho=est, n=n)
+for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
+
+make_variables(estimate_read_csv("input.csv"))
