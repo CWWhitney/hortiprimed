@@ -20,10 +20,34 @@ yield_reduction<-function(x, varnames)
   ppm_risk_2_red<-vv(ppm_risk_2_reduction,var_CV,n_years)
   ppm_risk_3_red<-vv(ppm_risk_3_reduction,var_CV,n_years)
   
-  for (priming1 in c(FALSE,TRUE)){
-    for (priming2 in c(FALSE,TRUE)){
-      for (priming3 in c(FALSE,TRUE))
-      {
-        
-      }}}
+  yield_100<-vv(yield, var_CV, n_years)
+  yield_priming<-yield_100*priming_yield_red/100
+  
+  if (risk1){
+    yield<-yield_100*risk1_dmg/100
+    yield_p<-yield_100*(risk1_dmg-priming_risk_1_red)/100
+    yield_ppm<-yield_100*(risk1_dmg-ppm_risk_1_red)/100
+  }
+  if (risk2){
+    yield<-yield_100*risk2_dmg/100
+    yield_p<-yield_100*(risk2_dmg-priming_risk_1_red)/100
+    yield_ppm<-yield_100*(risk2_dmg-ppm_risk_1_red)/100
+  }
+  
+
 }
+
+# Initialize variables
+total_yield = 1000 # Total yield in pounds
+disease_loss = 0.05 # Disease causes a 5% loss
+pest_loss = 0.03 # Pest infestation causes a 3% loss
+nutrient_loss = 0.02 # Nutrient deficiencies cause a 2% loss
+sunscald_loss = 0.01 # Sunscald causes a 1% loss
+blossom_end_loss = 0.02 # Blossom end rot causes a 2% loss
+watering_loss = 0.01 # Overwatering or under watering causes a 1% loss
+
+# Calculate total yield loss
+total_loss = disease_loss + pest_loss + nutrient_loss + sunscald_loss + blossom_end_loss + watering_loss
+
+# Calculate final yield
+final_yield = total_yield - (total_yield * total_loss)
