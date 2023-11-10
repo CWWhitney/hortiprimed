@@ -7,7 +7,7 @@ make_variables<-function(est,n=1)
 for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
 
 
-make_variables(estimate_read_csv("Sanghyo/Hortiprimed.csv"))
+make_variables(estimate_read_csv("Hortiprimed.csv"))
 
 
 
@@ -107,13 +107,14 @@ decision_function <- function(x, varnames){
               Cashflow_mit_Priming =  result_ohne_Priming - result_mit_Priming)) 
 }
 
+
 library(readr)
-input_table <- read.csv("Sanghyo/Hortiprimed.csv")
+input_table <- read.csv("Hortiprimed.csv")
 names(input_table)
 
 ###Model assessment###
 mcSimulation_results1 <- mcSimulation(estimate = 
-                                        estimate_read_csv("Sanghyo/Hortiprimed.csv"),
+                                        estimate_read_csv("Hortiprimed.csv"),
                                       model_function = decision_function,
                                       numberOfModelRuns = 10000,
                                       functionSyntax = "plainNames"
@@ -122,15 +123,15 @@ mcSimulation_results1 <- mcSimulation(estimate =
 
 
 plot_distributions(mcSimulation_object = mcSimulation_results1, 
-                   vars = c("Imple_NPV",
-                            "NO_Imple_NPV"),
+                   vars = c("Priming_NPV",
+                            "No_Priming_NPV"),
                    method = 'smooth_simple_overlay', 
                    base_size = 10)
 
 
 decisionSupport::plot_distributions(mcSimulation_object = mcSimulation_results1, 
-                                    vars = c("Imple_NPV",
-                                             "NO_Imple_NPV"),
+                                    vars = c("Priming_NPV",
+                                             "No_Priming_NPV"),
                                     method = 'boxplot')
 
 
@@ -156,7 +157,7 @@ plot_cashflow(mcSimulation_object = mcSimulation_results1,
 
 mcSimulation_table <- data.frame(mcSimulation_results1$x, mcSimulation_results1$y[1:3])
 
-evpi <- multi_EVPI(mc = mcSimulation_table, first_out_var = "Imple_NPV")
+evpi <- multi_EVPI(mc = mcSimulation_table, first_out_var = "Priming_NPV")
 
 
 plot_evpi(evpi, decision_vars = "NPV_decision_SSB_Tax")
