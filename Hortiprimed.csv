@@ -1,7 +1,7 @@
 Description: (),label,variable,distribution,lower,median,upper,
 "Coefficient of variation, ratio of the standard deviation to the mean (a measure of relative variability).",coeff. Variation,var_CV,posnorm,5,,20,
 Years from the start o the implementation of the intervention to the end.,Project time horizon (years),n_years,const,10,,10,
-Discount rate (%),Discount rate (%),discount_rate,posnorm,1,,5,%
+Discount rate (%),Discount rate (%),discount_rate,constant,3,,3,%
 "Leistung (Tomaten, Zwischentyp, Rispe, Absatzweg regionaler Lebensmitteleinzelhandel, Lebensmitteleinzelhandel)",Leistung (€/ha),Leistung,norm,685000,,694000,
 Direktkosten,"Heizmaterial (70 %Holzhackschnitzel, 30 %Erdgas) (€/ha)",Heizmaterial,norm,95900,,96000,
 ,Strom(€/ha),Strom,norm,23000,,24000,
