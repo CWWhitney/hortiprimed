@@ -12,6 +12,7 @@ Conceptual and quantitative model to simulate the cost/benefits of priming
 
 ![Screenshot 2023-11-08 at 12 35 15](https://github.com/CWWhitney/hortiprimed/assets/19190662/b2c8839e-2168-4659-a60d-2866b0e42aa3)
 
+
 # Simple overviews of economic returns
 
 ![Screenshot 2023-11-08 at 12 36 23](https://github.com/CWWhitney/hortiprimed/assets/19190662/d42c9567-e342-47db-a651-12e626e066a2)
