@@ -32,9 +32,11 @@ decision_function <- function(x, varnames){
   Vermarktungsgebuehr <- vv(Vermarktungsgebuehr, var_CV, n_years)
   sonstige_Betriebsmittel <- vv(sonstige_Betriebsmittel, var_CV, n_years)
   Zinskosten <- vv(Zinskosten, var_CV, n_years)
+  Kostenfaktor<- vv(Priming_Kosten, var_CV, n_years)
+  PSfaktor<- vv(Schutzfaktor, var_CV, n_years)
   
-  Direkt_Kosten_Priming <- Heizmaterial + Strom + (1.2*Saat_Planzgut) + Matten_Folien + Du_Bewaesserung + 
-    CO2 + (0.7*Pflanzenschutz) + Verpackung + Transport + Entsorgung + Vermarktungsgebuehr + 
+  Direkt_Kosten_Priming <- Heizmaterial + Strom + (Kostenfaktor*Saat_Planzgut) + Matten_Folien + Du_Bewaesserung + 
+    CO2 + (PSfaktor*Pflanzenschutz) + Verpackung + Transport + Entsorgung + Vermarktungsgebuehr + 
     sonstige_Betriebsmittel 
   Direkt_Kosten_ohne_Priming <- Heizmaterial + Strom + Saat_Planzgut + Matten_Folien + Du_Bewaesserung + 
     CO2 + Pflanzenschutz + Verpackung + Transport + Entsorgung + Vermarktungsgebuehr + 
@@ -52,17 +54,17 @@ decision_function <- function(x, varnames){
   for (decision_priming in c(FALSE,TRUE)){
     
     if (decision_priming){
-      
+
       Kosten_mit_Priming <- TRUE
-      Kosten_ohne_Priming <- TRUE
-      Leistung <- TRUE
-      
+      Kosten_ohne_Priming <- FALSE
+      #Leistung <- TRUE
+
     } else
     {
       Kosten_mit_Priming <- FALSE
-      Kosten_ohne_Priming <- FALSE
-      Leistung <- TRUE
-      
+      Kosten_ohne_Priming <- TRUE
+      #Leistung <- TRUE
+
     }
     
     
@@ -101,8 +103,8 @@ decision_function <- function(x, varnames){
     discount(result_ohne_Priming, discount_rate, calculate_NPV = T)
   
   
-  return(list(Imple_NPV =  - NPV_mit_Priming, 
-              NO_Imple_NPV = - NPV_ohne_Priming, 
+  return(list(Priming_NPV =  - NPV_mit_Priming, 
+              No_Priming_NPV = - NPV_ohne_Priming, 
               NPV_imle_Priming =  NPV_mit_Priming - NPV_ohne_Priming, 
               Cashflow_mit_Priming =  result_ohne_Priming - result_mit_Priming)) 
 }
