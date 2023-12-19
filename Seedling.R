@@ -1,5 +1,4 @@
 
-
 library(decisionSupport)
 
 make_variables<-function(est,n=1)
@@ -7,7 +6,7 @@ make_variables<-function(est,n=1)
 for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
 
 
-make_variables(estimate_read_csv("Seedling/Seedling-input.csv"))
+make_variables(estimate_read_csv("Seedling/Seedling-input (1).csv"))
 
 
 
@@ -32,9 +31,9 @@ decision_function <- function(x, varnames){
   Heatpriming<- vv(Heatpriming, var_CV, n_years)
   
   Direkt_Kosten_Salzpriming<- Heizmaterial + Strom + Samen + Bewaesserung + 
-    CO2 +  Cell + Vermarktungsgebuehr + sonstige_Betriebsmittel 
+    CO2 +  Cell + Vermarktungsgebuehr + sonstige_Betriebsmittel + Salzpriming 
   Direkt_Kosten_Heatpriming<- Heizmaterial + Strom + Samen + Bewaesserung + 
-    CO2 +  Cell + Vermarktungsgebuehr + sonstige_Betriebsmittel 
+    CO2 +  Cell + Vermarktungsgebuehr + sonstige_Betriebsmittel + Heatpriming
 
   
   # Arbeitserledigungskosten
@@ -89,12 +88,12 @@ decision_function <- function(x, varnames){
 
 
 library(readr)
-input_table <- read.csv("Seedling/Seedling-input.csv")
+input_table <- read.csv("Seedling/Seedling-input (1).csv")
 names(input_table)
 
 ###Model assessment###
 mcSimulation_results1 <- mcSimulation(estimate = 
-                                        estimate_read_csv("Seedling/Seedling-input.csv"),
+                                        estimate_read_csv("Seedling/Seedling-input (1).csv"),
                                       model_function = decision_function,
                                       numberOfModelRuns = 10000,
                                       functionSyntax = "plainNames"
@@ -103,29 +102,29 @@ mcSimulation_results1 <- mcSimulation(estimate =
 
 
 plot_distributions(mcSimulation_object = mcSimulation_results1, 
-                   vars = c("Priming_NPV",
-                            "No_Priming_NPV"),
+                   vars = c("Salzpriming_NPV",
+                            "Heatpriming_NPV"),
                    method = 'smooth_simple_overlay', 
                    base_size = 10)
 
 
 decisionSupport::plot_distributions(mcSimulation_object = mcSimulation_results1, 
-                                    vars = c("Priming_NPV",
-                                             "No_Priming_NPV"),
+                                    vars = c("Salzpriming_NPV",
+                                             "Heatpriming_NPV"),
                                     method = 'boxplot')
 
 
 decisionSupport::plot_distributions(mcSimulation_object = mcSimulation_results1, 
-                                    vars = "NPV_imle_Priming",
+                                    vars = "NPV_bet_Priming",
                                     method = "smooth_simple_overlay",
-                                    old_names = "NPV_imle_Priming",
+                                    old_names = "NPV_bet_Priming",
                                     new_names = "Outcome distribution for savings")
 
 
 
 ###Cashflow analysis###
 plot_cashflow(mcSimulation_object = mcSimulation_results1, 
-              cashflow_var_name = "Cashflow_mit_Priming")
+              cashflow_var_name = "Cashflow_bet_Priming")
 
 
 ###Value of Information (VoI) analysis###
