@@ -1,0 +1,102 @@
+---
+title: "HortiPrimed - Information"
+author: "Sang Hyo Moon"
+date: "2023-11-02"
+output: 
+ html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# info - INRES
+Priming  kann in Folge in der Praxis von Jungpflanzenproduzenten oder Gartenbaubetrieben
+angewandt werden. Das identifizierte Verfahren und dessen Mechanismen können in Zukunft auch
+auf weitere Gartenbaukulturen übertragen werden. Im Laufe des Projektes wird ein
+Vorhersagemodell erstellt, das anschließend als Entscheidungshilfe bei der Wahl effektiver
+Priming-Behandlungen und für damit verbundene ökonomische (z.B. Ertragserwartungen,
+Einkommen auf Betriebsebene) und ökologische (z.B. Wasserverschmutzung) Aspekte in der
+gartenbaulichen Produktion eingesetzt werden kann (INRES - Universität Bonn).
+Primingverfahren lohnt. Holistische Modelle werden dazu unter Berücksichtigung der Abläufe und Rahmenbedingungen der Tomaten- und Jungpflanzenproduktion entwickelt.
+
+HortiPrimed wird Tomaten-Jungpflanzen oder Pflanzen im Gewächshaus mit
+abiotischen Primingstimuli behandeln, und ist so von diesen Patenten nicht betroffen. Substanzen zur
+Induktion von Priming müssen in ihrer Anwendung und Dosis gut kontrolliert sein und bedürfen einer
+Meldung beim Bundesamt für Verbraucherschutz und Lebensmittelsicherheit sowie eine Risikobewertung 
+
+# Priming 
+Das hier vorgeschlagene „Priming“ stellt eine einfache, kostengünstige und an den Gartenbau
+angepasste Methode zur Stabilisierung oder Immunisierung von Pflanzen (Punkt C der
+Förderbekanntmachung) gegen abiotische und biotische Stressfaktoren dar, die keine künstlichen
+Stärkungsprodukte benötigt und die Nutzung von Pflanzenschutzmitteln verringert. Somit
+entspricht das Projektvorhaben den Richtlinien des Nationalen Aktionsplans zur nachhaltigen Anwendung von Pflanzenschutzmitteln („NAP“, BMEL, 2013), um Pflanzenschutzmittelrückstände in Umwelt und in Lebensmitteln nachhaltig zu reduzieren.
+
+
+
+# general object 
+ein holistisches Modell entwickelt, das sowohl experimentelle Daten, entsprechende Literaturquellen und spezifisches Expertenwissen integriert.
+
+# goals 
+der Ansatz holistischer Modellansätze, um in einem komplexen landwirtschaftlichen System ökonomische und ökologische Entscheidungsfindungen bei Unwägbarkeiten zu unterstützen sowie Risikoabschätzungen vorzunehmen
+
+# some pictures 
+
+# Model (DE)
+## Leistung
+- Tomaten
+- Zwischensorte
+- Rispe
+- bsatzkanal regionaler Lebensmitteleinzelhandel
+- Lebensmitteleinzelhandel.
+
+## Kosten 
+
+### Direktkosten
+- Heizmaterial (70 %Holzhackschnitzel, 30 %Erdgas)
+- Strom
+- Saat- und Pflanzgut
+- Matten und Folien
+- Düngung und Bewässerung
+- C02 
+- Pflanzenschutz 
+- Verpackung Transport
+- Entsorgung Vermarktungsgebühren (3 %) Sonstige Betriebsmittel
+- Zinskosten (3 %, 1⁄2 Kulturdauer
+
+### Arbeitserledigungskosten
+- Variable Lohnkosten
+- Dienstleistungen
+- Zinskosten (3 %, 1⁄2/ Kulturdauer)
+
+# Model (EN)
+## output 
+- Tomatoes, 
+- intermediate type
+- panicle
+- sales channel of regional food retail
+- food retail.
+## Cost 
+### direct cost 
+- Heating material (70 %wood chips, 30 %natural gas)
+- Electricity
+- Seeds and Seedling
+- Mats and foils (films)
+- Fertilization and irrigation
+- C02 
+- Plant protection material 
+- Packaging Transport
+- Disposal Marketing fees (3 %) 
+- Other inputs
+- Interest costs (3 %, 1⁄2 crop life)
+
+### Work performance costs
+
+- Variable labor costs
+- Services
+- Interest charges (3 %, 1⁄2/cultivation period)
+- Fixed labor costs
