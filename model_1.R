@@ -1,5 +1,5 @@
 library(decisionSupport)
-
+g
 yield_reduction<-function(x, varnames)
 {
   risk1<-chance_event(risk_1,1,0,n=n_years)
@@ -88,3 +88,6 @@ make_variables<-function(est,n=1)
 for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
 
 make_variables(estimate_read_csv("input.csv"))
+
+
+
