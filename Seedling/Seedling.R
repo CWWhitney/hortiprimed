@@ -39,7 +39,10 @@ decision_function <- function(x, varnames){
   # Arbeitserledigungskosten
   Lohnkosten <- vv(Arbeit, var_CV, n_years)
  
+ 
+  #Priming risks: How many plants are primed, time risks (how long a seedling production takes)
   
+   
   #Intervention of Priming 
   
   for (decision_priming in c(FALSE,TRUE)){
