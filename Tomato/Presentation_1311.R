@@ -162,15 +162,15 @@ mcSimulation_table <- data.frame(mcSimulation_results1$x, mcSimulation_results1$
 evpi <- multi_EVPI(mc = mcSimulation_table, first_out_var = "Priming_NPV")
 
 
-plot_evpi(evpi, decision_vars = "NPV_decision_SSB_Tax")
+plot_evpi(evpi, decision_vars = "NPV_imle_Priming")
 
 
 #put here mcSimulation_result instead of pls_result
 compound_figure(mcSimulation_object = mcSimulation_results1, 
                 input_table = input_table, 
                 plsrResults = mcSimulation_results1, 
-                EVPIresults = evpi, decision_var_name = "NPV_decision_SSB_Tax", 
-                cashflow_var_name = "Cashflow_decision_SSB_Tax", 
+                EVPIresults = evpi, decision_var_name = "NPV_imle_Priming", 
+                cashflow_var_name = "Cashflow_mit_Priming", 
                 base_size = 5)
 
 
