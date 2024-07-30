@@ -1,0 +1,91 @@
+---
+title: "0811"
+author: "Sang Hyo Moon"
+date: "2023-11-02"
+output: 
+ html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# general object 
+ein holistisches Modell entwickelt, das sowohl experimentelle Daten, entsprechende Literaturquellen und spezifisches Expertenwissen integriert.
+
+# goals 
+der Ansatz holistischer Modellansätze, um in einem komplexen landwirtschaftlichen System ökonomische und ökologische Entscheidungsfindungen bei Unwägbarkeiten zu unterstützen sowie Risikoabschätzungen vorzunehmen
+wir daraus lesen wollen, bzw was wir erhoffen für infos zu bekommen, sind für mich:
+wie effizient muss priming sein, dass es sich lohnt
+wie viel darf es max. kosten
+
+# Model (DE)
+## Leistung
+- Tomaten
+- Zwischentyp
+- Rispe
+- bsatzkanal regionaler Lebensmitteleinzelhandel
+- Lebensmitteleinzelhandel.
+
+## Kosten 
+
+### Direktkosten
+- Heizmaterial (70 %Holzhackschnitzel, 30 %Erdgas)
+- Strom
+- Saat- und Pflanzgut
+- Matten und Folien
+- Düngung und Bewässerung
+- C02 
+- Pflanzenschutz 
+- Verpackung Transport
+- Entsorgung Vermarktungsgebühren (3 %) Sonstige Betriebsmittel
+- Zinskosten (3 %, 1⁄2 Kulturdauer
+
+### Arbeitserledigungskosten
+- Variable Lohnkosten
+- Dienstleistungen
+- Zinskosten (3 %, 1⁄2/ Kulturdauer)
+- Fixe Kosten
+
+
+
+# Model (EN)
+## output 
+- Tomatoes, 
+- intermediate type
+- panicle
+- sales channel of regional food retail
+- food retail.
+
+## Cost 
+### direct cost 
+- Heating material (70 %wood chips, 30 %natural gas)
+- Electricity
+- Seeds and Seedling
+- Mats and foils (films)
+- Fertilization and irrigation
+- C02 
+- Plant protection material 
+- Packaging Transport
+- Disposal Marketing fees (3 %) 
+- Other inputs
+- Interest costs (3 %, 1⁄2 crop life)
+
+### Work performance costs
+
+- Variable labor costs
+- Services
+- Interest charges (3 %, 1⁄2/cultivation period)
+- Fixed labor costs
+
+
+
+- need calculation exact calculation 
+- cost of implementation per ha
+- risks
+- 

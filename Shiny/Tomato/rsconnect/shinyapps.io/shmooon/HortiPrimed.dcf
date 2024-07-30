@@ -1,0 +1,12 @@
+name: HortiPrimed
+title:
+username: shmooon
+account: shmooon
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12319312
+bundleId: 8883336
+url: https://shmooon.shinyapps.io/HortiPrimed/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
