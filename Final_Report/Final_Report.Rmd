@@ -1,0 +1,284 @@
+---
+title: "Final_Report"
+author: "Sanghyo Moon"
+date: "`r Sys.Date()`"
+output: 
+
+  html_document: 
+        toc: true
+        toc_float: true
+        toc_depth: 3
+        number_sections: true
+
+        fig_width: 9 
+        fig_height: 4
+        fig_align: "center"
+        fig_caption: true
+        
+        highlight: pygments
+        theme: cerulean
+        
+        keep_md: true
+        
+        code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Import Libraries, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(decisionSupport)
+library(readr)
+library(tidyverse)
+library(sf)
+library(kableExtra)
+```
+
+# Location of Partners
+These partners provide information, which is directly related to the Decision Analysis. 
+
+However, we have also two partners in Bayern
+
+```{r Mapping,echo=T, warning=FALSE, fig.height = 5, fig.width = 5, fig.align = "center"}
+
+partners <- data.frame(Partner = c("1", "2", "3", "4", "5", "6", "7", "8", "9","10"),
+                Latitude = c("50.905235", "49.9847", "50.7292847", "48.2233187", "50.1086989", 
+                             "51.4425624","51.0322072", "51.4375832", "51.3206", "51.0322072"),
+                Longitude = c("6.4042735", "7.96835", "7.0731143", "11.592294", "11.4510019", 
+                              "6.266977","6.6134963", "6.3253844", "6.4951", "6.6134963")
+                )
+
+
+# !reading the shapefile (the map)
+# shapefiles are from eurostat, there are different versions, here i am using the version of 2021
+# Source: https://ec.europa.eu/eurostat/de/web/gisco/geodata/statistical-units/territorial-units-statistics
+
+shape <- read_sf(dsn = "map/German_Geo/NUTS_RG_20M_2021_3035.shp")
+shape <- shape %>% dplyr::filter(CNTR_CODE == "DE",LEVL_CODE == 3)
+names(shape)[4] <- "kreis"
+
+# !transforming the soil point crs into the shapefile crs
+maps <- partners %>% st_as_sf(coords = c("Longitude", "Latitude"), 
+                               crs="+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0") %>% 
+  st_transform(st_crs(shape))
+
+# !checking if the points are inside the polygons of our Nuts3 Shapefile
+partner_maps <- st_join(maps, shape)
+partner_maps_NRW_HS <- partner_maps %>%
+    filter(NUTS_ID != "DE21H")%>%
+  filter(NUTS_ID != "DE24B")
+
+# !filtering only points that are within NRW & Hessen
+# NUTS code for NRW is DEA, Hessen is DEB
+shape_NRW <- filter(shape, str_detect(NUTS_ID, "^DEA"))
+shape_HS <- filter(shape, str_detect(NUTS_ID, "^DEB"))
+
+
+# Ensure `shape_NRW` & `shape_HS` is only at the state level by merging county boundaries
+Boundary_NRW <- shape_NRW %>%
+  summarise(geometry = st_union(geometry))  # Dissolve internal county borders
+
+Boundary_HS <- shape_HS %>%
+  summarise(geometry = st_union(geometry))  # Dissolve internal county borders
+
+
+#combine boundaries 
+Boundary_Combined <- rbind(Boundary_NRW, Boundary_HS)
+
+
+# create plot
+Project_partners <- ggplot(Boundary_Combined) +
+  geom_sf(data = Boundary_Combined, fill = "#e0e0e0", color = "#999999") + # color = "#999999" with boundary
+  geom_sf(data = partner_maps_NRW_HS, aes(color = "Project Partners"),
+          show.legend = TRUE, size = 3) +
+  scale_color_manual(values = c("Project Partners" = "#fa744b")) +
+  theme_bw() +
+  theme(legend.position = "bottom", 
+        legend.box="horizontal",
+        legend.key.width= unit(2, 'cm'),
+        strip.text = element_text(size = 11, face = "bold"), 
+        legend.text = element_text(size = 12),
+        legend.title.align = 0.5,
+        legend.title = element_text(size = 14, face = "bold"))+
+  guides(color=guide_legend(title="Locations"), font = 2)
+
+Project_partners
+```
+
+
+# Data reading 
+## Yield Data from LWK
+
+
+```{r Yield_LWK, eval=F, echo=T}
+
+Yield_LWK <- read_csv("Final_Report/Yield.csv",show_col_types = FALSE)
+
+Yield_LWK <- Yield_LWK[1:24] 
+
+Yield_LWK_1 <- Yield_LWK%>% select("KK_Tross","SK_Tross","KS_Tross", "SS_Tross","KK_Tross_1", "HK_Tross", "KS_Tross_3", "HS_Tross","KH_Tross", "SH_Tross", "KH_Tross_5", "HH_Tross")
+
+names(Yield_LWK_1) <- c("KK_1_Tross","SK_Tross","KS_1_Tross", "SS_Tross","KK_2_Tross", "HK_Tross", "KS_2_Tross", "HS_Tross","KH_1_Tross", "SH_Tross", "KH_2_Tross", "HH_Tross")
+Summary_Yield_LWK <- summary(Yield_LWK_1, na.rm = TRUE,quantile.type = 9)
+
+kable(Yield_LWK_1) %>%
+  kable_styling("striped", position = "left",font_size = 10)%>%
+  scroll_box(height = "200px")
+
+```
+
+- Here I need CV to calculate...
+
+- Yield data: confident intervall 95% here for min and max from LWK_Data
+
+- once CVs and Yields are clear, then add into the input table. 
+
+- ?? if there are 2 different yield, how can I combine it properly? 
+
+# input calculation
+```{r include=FALSE}
+
+
+
+Priming_function <- function(x, varnames){
+  #Leistung
+  Yield_K_K <- vv(Yield_type_1, var_CV_Yield_type_1, n_years)
+  Yield_K_H <- vv(Yield_type_2, var_CV_Yield_type_2, n_years)
+  Yield_K_S <- vv(Yield_type_3, var_CV_Yield_type_3, n_years)
+  Yield_H_K <- vv(Yield_type_4, var_CV_Yield_type_4, n_years)
+  Yield_H_H <- vv(Yield_type_5, var_CV_Yield_type_5, n_years)
+  Yield_H_S <- vv(Yield_type_6, var_CV_Yield_type_6, n_years)
+  Yield_S_K <- vv(Yield_type_7, var_CV_Yield_type_7, n_years)
+  Yield_S_H <- vv(Yield_type_8, var_CV_Yield_type_8, n_years)
+  Yield_S_S <- vv(Yield_type_9, var_CV_Yield_type_9, n_years)
+
+  TomatenPreis <-vv(Tomaten_Preis, var_CV_Tomaten_Preis, n_years)
+  
+  # Leistung
+  Leistung_K_K <- Yield_K_K+TomatenPreis
+  Leistung_K_H <- Yield_K_H + TomatenPreis
+  Leistung_K_S <- Yield_K_S + TomatenPreis
+  Leistung_H_K <- Yield_H_K + TomatenPreis
+  Leistung_H_H <- Yield_H_H + TomatenPreis
+  Leistung_H_S <- Yield_H_S + TomatenPreis
+  Leistung_S_K <- Yield_S_K + TomatenPreis
+  Leistung_S_H <- Yield_S_H + TomatenPreis
+  Leistung_S_S <- Yield_S_S + TomatenPreis
+  
+  #Ausgabe
+  #Direkt Kosten & Arbeitskosten
+  Kosten_ohne_Priming <- Saatgut + Jungepflanzen + 
+    Substrat + Energie_therm + Energie_elek + CO2_H2O_Due + Kordel +
+    Hummel_Nutzlinge + PSM_chem + Heackseln_Entsorgung + Desinfektion +
+    Versicherung + Arbeit
+
+  Kosten_mit_Priming <- Saatgut + Jungepflanzen_Priming +
+    Substrat + Energie_therm + Energie_elek + CO2_H2O_Due + Kordel +
+    Hummel_Nutzlinge + PSM_chem + Heackseln_Entsorgung + Desinfektion +
+    Versicherung + Arbeit
+
+  
+  ## Total_ Gewinn_Kosten ##
+  
+
+  Result_K_K <- Leistung_K_K - Kosten_ohne_Priming
+  Result_K_H <- Leistung_K_H - Kosten_ohne_Priming
+  Result_K_S <- Leistung_K_S - Kosten_ohne_Priming
+  Result_H_K <- Leistung_H_K - Kosten_mit_Priming
+  Result_H_H <- Leistung_H_H - Kosten_mit_Priming
+  Result_H_S <- Leistung_H_S - Kosten_mit_Priming
+  Result_S_K <- Leistung_S_K - Kosten_mit_Priming
+  Result_S_H <- Leistung_S_H - Kosten_mit_Priming
+  Result_S_S <- Leistung_S_S - Kosten_mit_Priming
+  
+  
+  #NPV calculate
+
+  NPV_K_K <- discount(Result_K_K, discount_rate, calculate_NPV = T)
+  NPV_K_H <- discount(Result_K_H, discount_rate, calculate_NPV = T)
+  NPV_K_S <- discount(Result_K_S, discount_rate, calculate_NPV = T)
+  NPV_H_K <- discount(Result_H_K, discount_rate, calculate_NPV = T)
+  NPV_H_H <- discount(Result_H_H, discount_rate, calculate_NPV = T)
+  NPV_H_S <- discount(Result_H_S, discount_rate, calculate_NPV = T)
+  NPV_S_K <- discount(Result_S_K, discount_rate, calculate_NPV = T)
+  NPV_S_H <- discount(Result_S_H, discount_rate, calculate_NPV = T)
+  NPV_S_S <- discount(Result_S_S, discount_rate, calculate_NPV = T)
+  
+  
+  return(list(K_K_NPV = NPV_K_K,
+              K_H_NPV = NPV_K_H, 
+              K_S_NPV = NPV_K_S,
+              H_K_NPV = NPV_H_K, 
+              H_H_NPV = NPV_H_H,
+              H_S_NPV = NPV_H_S,
+              S_K_NPV = NPV_S_K,
+              S_H_NPV = NPV_S_H,
+              S_S_NPV = NPV_S_S,
+              
+              NPV_K_H_NPV_K_K = NPV_K_H - NPV_K_K,
+              NPV_K_S_NPV_K_K = NPV_K_S - NPV_K_K,
+              NPV_H_K_NPV_K_K = NPV_H_K - NPV_K_K,
+              NPV_H_H_NPV_K_K = NPV_H_H - NPV_K_K,
+              NPV_H_S_NPV_K_K = NPV_H_S - NPV_K_K,
+              NPV_S_K_NPV_K_K = NPV_S_K - NPV_K_K,
+              NPV_S_H_NPV_K_K = NPV_S_H - NPV_K_K,
+              NPV_S_S_NPV_K_K = NPV_S_S - NPV_K_K,
+
+              Cashflow_K_H = Result_K_H - Result_K_K,
+              Cashflow_K_S = Result_K_S - Result_K_K,
+              Cashflow_H_K = Result_H_K - Result_K_K,
+              Cashflow_H_H = Result_H_S - Result_K_K,
+              Cashflow_H_S = Result_H_S - Result_K_K,
+              Cashflow_S_K = Result_S_K - Result_K_K,
+              Cashflow_S_H = Result_S_H - Result_K_K,
+              Cashflow_S_S = Result_S_S - Result_K_K
+              
+              )) 
+}
+
+```
+
+# scenario_mc
+This function is a wrapper around the mc_Simulation function that facilitates implementation of scenarios. The standard mc_Simulation function only allows specifying one set of estimates (i.e. distribution, lower and upper bounds) for each random variable. This is inconvenient when we want to run simulations for heterogeneous populations that include subsets with particular characteristics, e.g. small and large farms. It may then make sense to specify separate distributions for input variables for each of the subsets. The scenario_mc function facilitates this.
+
+## Smaller farm 
+
+```{r function, include=FALSE}
+
+
+Priming_input_table <- read_csv("Final_Report/baseline.csv")
+
+scenarios<-read.csv("Final_Report/scenarios.csv", fileEncoding = "UTF-8-BOM")
+s_farm<-scenarios[,c(1,2,3)]
+
+s_farm_Priming_scenarios<-scenario_mc(base_estimate =
+                                        estimate_read_csv("Final_Report/baseline.csv"),
+                               scenarios = s_farm,
+                               model_function = Priming_function,
+                               numberOfModelRuns = 10000,
+                               functionSyntax = "plainNames")
+
+
+```
+
+
+```{r ,echo=T, warning=FALSE, fig.height = 5, fig.width = 5, fig.align = "center"}
+
+plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
+                                  vars = c("K_K_NPV","H_K_NPV","S_K_NPV"),
+                                  method = 'boxplot', 
+                                  old_names = c("K_K_NPV","H_K_NPV","S_K_NPV"),
+                                  new_names = c("no priming","heat priming","salt priming"),
+                                  base_size = 10,
+                                   colors = c("tomato","#009E73","#56B4E9"),
+                                   legend.position = "none") +
+  labs(title = "NPV Distribution with Different Decision Options \nand no stress for Smaller Farms")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+## bigger farm

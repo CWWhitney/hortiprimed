@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
+
 # general object 
 ein holistisches Modell entwickelt, das sowohl experimentelle Daten, entsprechende Literaturquellen und spezifisches Expertenwissen integriert.
 
@@ -26,12 +27,9 @@ wie viel darf es max. kosten
 
 # Model (DE)
 ## Leistung
-- Tomaten
-- Zwischentyp
-- Rispe
-- bsatzkanal regionaler Lebensmitteleinzelhandel
-- Lebensmitteleinzelhandel.
+- Tomaten, Rispe
 
+https://open-data.ble.de/dataset/markt-und-preisbericht-obst-und-gemuese
 ## Kosten 
 
 ### Direktkosten
@@ -88,4 +86,8 @@ wie viel darf es max. kosten
 - need calculation exact calculation 
 - cost of implementation per ha
 - risks
-- 
+
+
+# codes 
+
+- quantile: quantile(garden_simulation_data$school_event_freq, probs = c(0.1, 0.5, 0.9)) # Sample low, median, high
