@@ -206,45 +206,64 @@ s_farm_Priming_scenarios<-scenario_mc(base_estimate = estimate_read_csv("Final_R
                                       functionSyntax = "plainNames")
 
 
-plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
+no_stress_s_farm <- plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
                    vars = c("K_K_NPV","H_K_NPV","S_K_NPV"),
                    method = 'boxplot', 
                    old_names = c("K_K_NPV","H_K_NPV","S_K_NPV"),
                    new_names = c("no priming","heat priming","salt priming"),
                    base_size = 10,
-                   colors = c("tomato","#009E73","#56B4E9"),
                    legend.position = "none") +
   labs(title = "NPV Distribution with Different Decision Options \nand no stress for Smaller Farms")+
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")  # << THIS controls legend order
+  )
+
+ggsave( paste0("Final_Report/graphs/no_stress_s_farm",".tiff"), no_stress_s_farm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 
-plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
+no_priming_s_farm <- plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
                    vars = c("K_K_NPV","K_H_NPV","K_S_NPV"),
                    method = 'boxplot', 
                    old_names = c("K_K_NPV","K_H_NPV","K_S_NPV"),
                    new_names = c("no stress","heat stress","salt stress"),
                    base_size = 10,
-                   colors = c("tomato","#009E73","#56B4E9"),
                    legend.position = "none") +
   labs(title = "NPV Distribution with No Prming \nand Different Stresses for Smaller Farms")+
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")  # << THIS controls legend order
+  )
+ggsave( paste0("Final_Report/graphs/no_priming_s_farm",".tiff"), no_priming_s_farm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 
-plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
-                   vars = c("H_K_NPV","H_H_NPV","H_S_NPV"),
-                   method = 'boxplot', 
-                   old_names = c("H_K_NPV","H_H_NPV","H_S_NPV"),
-                   new_names = c("no stress","heat stress","salt stress"),
-                   base_size = 10,
-                   colors = c("tomato","#009E73","#56B4E9"),
-                   legend.position = "none") +
-  labs(title = "NPV Distribution with Heat Prming \nand Different Stresses for Smaller Farms")+
+
+heat_priming_s_farm <- plot_distributions(
+  mcSimulation_object = s_farm_Priming_scenarios, 
+  vars = c("H_K_NPV", "H_H_NPV", "H_S_NPV"),
+  method = 'boxplot', 
+  old_names = c("H_K_NPV", "H_H_NPV", "H_S_NPV"),
+  new_names = c("no stress", "heat stress", "salt stress"),
+  base_size = 10,
+  legend.position = "none") +
+  labs(title = "NPV Distribution with Heat Priming \nand Different Stresses for Smaller Farms") +
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme( plot.title = element_text(hjust = 0.5)) +
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")) + # order y-axis and legend
+  scale_y_discrete(limits = c(  "heat stress","salt stress","no stress"))  # << critical: y-axis order
 
-plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
+ggsave( paste0("Final_Report/graphs/heat_priming_s_farm",".tiff"), heat_priming_s_farm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
+
+salt_priming_s_farm <- plot_distributions(mcSimulation_object = s_farm_Priming_scenarios, 
                    vars = c("S_K_NPV","S_H_NPV","S_S_NPV"),
                    method = 'boxplot', 
                    old_names = c("S_K_NPV","S_H_NPV","S_S_NPV"),
@@ -254,17 +273,28 @@ plot_distributions(mcSimulation_object = s_farm_Priming_scenarios,
                    legend.position = "none") +
   labs(title = "NPV Distribution with Salt Prming \nand Different Stresses for Smaller Farms")+
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")) + # order y-axis and legend
+  scale_y_discrete(limits = c(  "heat stress","salt stress","no stress"))  # << critical: y-axis order
+
+ggsave( paste0("Final_Report/graphs/salt_priming_s_farm",".tiff"), salt_priming_s_farm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 
 
-plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
+
+cashflow_KK_HK_s_farm <- plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
               cashflow_var_name = "Cashflow_H_K",
               facet_labels = "Cash Flow Comparison Between No Priming \nand Heat Priming for Smaller Farms" )
-
-plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
+ggsave( paste0("Final_Report/graphs/cashflow_KK_HK_s_farm",".tiff"), cashflow_KK_HK_s_farm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
+cashflow_KK_SK_s_farm <- plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
               cashflow_var_name = "Cashflow_S_K",
               facet_labels ="Cash Flow Comparison Between No Priming \nand Salt Priming for Smaller Farms" )
+ggsave( paste0("Final_Report/graphs/cashflow_KK_SK_s_farm",".tiff"), cashflow_KK_SK_s_farm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 library(evpi)
 #  ---- EVPI s farm ----
@@ -309,16 +339,18 @@ s_farm_EVPI_filtered <- s_farm_EVPI %>%
 
 # Create the horizontal bar plot
 
-ggplot(s_farm_EVPI_filtered, aes(x = reorder(Variable, EVPI), y = EVPI)) +
+evpi_KK_HK_sfarm <- ggplot(s_farm_EVPI_filtered, aes(x = reorder(Variable, EVPI), y = EVPI)) +
   geom_bar(stat = "identity",fill = "tomato") +
   coord_flip() +
   labs(x = "Variable", y = "EVPI [€/m²]", title = "EVPI (no Priming or Heat Priming)") +
   scale_x_discrete(labels = c("Yield_type_4" = "Yield of Heat primed tomato [kg/m2]", 
                               "Jungepflanzen_Priming" = "primed seedling cost",
                               "Yield_type_1" = "Yield of none primed tomato [kg/m2]")) +  # Change labels
-  theme_minimal()
+ 
+  theme_bw()
 
-
+ggsave( paste0("Final_Report/graphs/evpi_KK_HK_sfarm",".tiff"), evpi_KK_HK_sfarm, 
+        width = 14, height = 8, units = 'cm', dpi = 700, compression = "lzw")
 
 #  ---- EVPI s farm KK - SK  ----
 s_farm_list17 <- s_farm_list1[c(1,7)]
@@ -340,18 +372,145 @@ s_farm_EVPI_filtered17 <- s_farm_EVPI17 %>%
 
 # Create the horizontal bar plot
 
-ggplot(s_farm_EVPI_filtered17, aes(x = reorder(Variable, EVPI), y = EVPI)) +
+evpi_KK_SK_sfarm <- ggplot(s_farm_EVPI_filtered17, aes(x = reorder(Variable, EVPI), y = EVPI)) +
   geom_bar(stat = "identity", fill = "#56B4E9") +
   coord_flip() +
   labs(x = "Variable", y = "EVPI [€/m²]", title = "EVPI (no Priming or Salt Priming)") +
   scale_x_discrete(labels = c( "Jungepflanzen_Priming" = "primed seedling cost",
-                               "Yield_type_1" = "Yield of none primed tomato [kg/m2]")) +  # Change labels
-  theme_minimal()
+                               "Yield_type_1" = "Yield of none primed tomato [kg/m2]",
+                               "Yield_type_7" = "Yield of salt primed tomato [kg/m2]")) +  # Change labels
+  theme_bw()
+
+
+ggsave( paste0("Final_Report/graphs/evpi_KK_SK_sfarm",".tiff"), evpi_KK_SK_sfarm, 
+        width = 14, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 
 
 
+#----PLS s farm ----
 
+#PLS
+Priming_scenarios_sfarm <- s_farm_Priming_scenarios
+Priming_scenarios_sfarm$x<-Priming_scenarios_sfarm$x[,which(!colnames(Priming_scenarios_sfarm$x)=="Scenario")]
+
+#legend_table<-read.csv("Final_Report/baseline.csv", fileEncoding = "UTF-8-BOM")
+
+#PLS for Heat priming - no priming under control
+pls_out_HK_KK_sfarm<-plsr.mcSimulation(object=Priming_scenarios_sfarm, 
+                                 resultName = names(Priming_scenarios_sfarm$y)[12])
+
+
+#plot_pls(pls_out_HK_KK,input_table=legend_table, cut_off_line = 0.8)
+plot_pls(pls_out_HK_KK_sfarm,cut_off_line = 1, threshold = 0.8,
+         x_axis_name = "Variable Importance in Projection")+
+  labs( title = "the Variable Importance in the Projection (VIP) 
+  of no Priming and Heat Priming without stress in small farm")+
+  scale_y_discrete(labels = c("Yield_type_4" = "Yield of Heat primed tomato [kg/m2]", 
+                              "Jungepflanzen_Priming" = "primed seedling cost",
+                              "Yield_type_1" = "Yield of none primed tomato [kg/m2]"))
+
+ggsave( paste0("Final_Report/graphs/pls_out_HK_KK_sfarm",".tiff"), pls_out_HK_KK_sfarm, 
+        width = 14, height = 8, units = 'cm', dpi = 750, compression = "lzw")
+
+
+
+# PLS for Salt priming - no priming under control
+pls_out_SK_KK_sfarm<-plsr.mcSimulation(object=Priming_scenarios_sfarm, 
+                                 resultName = names(Priming_scenarios_sfarm$y)[15])
+
+
+plot_pls(pls_out_SK_KK_sfarm,cut_off_line = 1, threshold = 0.8,
+         x_axis_name = "Variable Importance in Projection")+
+  labs( title = "the Variable Importance in the Projection (VIP) of 
+        \nno Priming and Salt Priming without stress")+
+  scale_y_discrete(labels = c("Yield_type_7" = "Yield of Salt primed tomato [kg/m2]", 
+                              "Jungepflanzen_Priming" = "primed seedling cost",
+                              "Yield_type_1" = "Yield of none primed tomato [kg/m2]",
+                              "Hummel_Nutzlinge" = "bio. plant protection cost [€/m2]"))
+
+
+coeff1 <- pls_out_HK_KK_sfarm[["coefficients"]][,,1]
+scale  <- pls_out_HK_KK_sfarm[["scale"]]
+
+s_farm_EVPI_1 <- s_farm_EVPI[1:26, ]
+
+VIP_table_HK_KK_sfarm_1 <- data.frame(
+  name = names(scale),
+  VIP = as.numeric(scale),
+  coefficient = as.numeric(coeff1),
+EVPI = as.numeric(s_farm_EVPI_1$EVPI))
+VIP_table_HK_KK_sfarm <- VIP_table_HK_KK_sfarm_1[-26, ]
+
+
+
+
+pls_subset <- subset(VIP_table_HK_KK_sfarm_1,VIP_table_HK_KK_sfarm_1$VIP>=0.8)
+pls_subset <- subset(VIP_table_HK_KK_sfarm_1,VIP_table_HK_KK_sfarm_1$EVPI>=1)
+pls_subset$Category[pls_subset$coefficient > 0] = "cadetblue"
+pls_subset$Category[pls_subset$coefficient < 0] = "firebrick"
+pls_subset$Category[pls_subset$VIP < 1] ="grey"
+pls_dat <- as.data.frame(pls_subset)
+name_mapping <- c(
+  "Yield_type_4" = "Yield of Heat primed tomato [kg/m2]",
+  "Yield_type_7" = "Yield of Salt primed tomato [kg/m2]", 
+  "Jungepflanzen_Priming" = "primed seedling cost",
+  "Yield_type_1" = "Yield of none primed tomato [kg/m2]",
+  "Hummel_Nutzlinge" = "bio. plant protection cost [€/m2]"
+)
+pls_dat$X <- name_mapping[pls_dat$name]
+
+p <- ggplot(pls_dat,aes(x=pls_dat$name,y=pls_dat$VIP))+
+  geom_bar(aes(fill=pls_dat$Category),stat ="identity")+
+  ggtitle("Variable Importance")+
+  ylab("VIP scores")+
+  xlab(NULL)+
+  scale_fill_manual(values = c("cadetblue","firebrick","grey"))+
+  theme(axis.title.y =element_text(color="black", size=8),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = unit(c(1,-1,1,0), "mm")) +
+  geom_hline(yintercept = 1, size=0.2)+
+  theme(legend.position = "none")+
+  scale_y_reverse() +
+  coord_flip()
+q <-  ggplot(data = pls_dat, aes(x = pls_dat$X, y = pls_dat$EVPI))+
+  geom_bar(fill = "deepskyblue3",stat = "identity") +
+  ggtitle("Value of Information") +
+  ylab("EVPI")+
+  xlab(NULL)+
+  theme(axis.title.y = element_text(color="black", size=8),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid=element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.margin = unit(c(1,0,1,-1), "mm")) +
+  coord_flip()
+g.mid <- ggplot(pls_dat,aes(x=1,y=pls_dat$X))+geom_text(aes(label=pls_dat$X))+
+  geom_segment(aes(x=0,xend=0,yend=pls_dat$X))+
+  geom_segment(aes(x=0,xend=0,yend=pls_dat$X))+
+  ggtitle("")+
+  ylab(NULL)+
+  scale_x_continuous(expand=c(0,0),limits=c(1.0,1.0))+
+  theme(axis.title=element_blank(),
+        panel.grid=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        panel.background=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        plot.margin = unit(c(1,0,1,0), "mm"))+
+  scale_y_discrete(labels = c("Yield_type_7" = "Yield of Salt primed tomato [kg/m2]", 
+                              "Jungepflanzen_Priming" = "primed seedling cost",
+                              "Yield_type_1" = "Yield of none primed tomato [kg/m2]",
+                              "Hummel_Nutzlinge" = "bio. plant protection cost [€/m2]"))
+gg1 <- ggplot_gtable(ggplot_build(p))
+gg2 <- ggplot_gtable(ggplot_build(q))
+gg.mid <- ggplot_gtable(ggplot_build(g.mid))
+cowplot::plot_grid(gg1,gg.mid,gg2, ncol = 3, align = "h")
 
 #  ---- larger farm   ----
 
@@ -369,7 +528,7 @@ b_farm_Priming_scenarios<-scenario_mc(base_estimate = estimate_read_csv("Final_R
                                       functionSyntax = "plainNames")
 
 
-plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
+no_stress_bfarm <- plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
                    vars = c("K_K_NPV","H_K_NPV","S_K_NPV"),
                    method = 'boxplot', 
                    old_names = c("K_K_NPV","H_K_NPV","S_K_NPV"),
@@ -379,9 +538,19 @@ plot_distributions(mcSimulation_object = b_farm_Priming_scenarios,
                    legend.position = "none") +
   labs(title = "NPV Distribution with Different Decision Options \nand no stress for Larger Farms")+
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")) + # order y-axis and legend
+  scale_y_discrete(limits = c(  "heat stress","salt stress","no stress"))  # << critical: y-axis order
 
-plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
+
+ggsave( paste0("Final_Report/graphs/no_stress_bfarm",".tiff"), no_stress_bfarm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
+
+
+
+no_priming_bfarm <- plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
                    vars = c("K_K_NPV","K_H_NPV","K_S_NPV"),
                    method = 'boxplot', 
                    old_names = c("K_K_NPV","K_H_NPV","K_S_NPV"),
@@ -391,10 +560,18 @@ plot_distributions(mcSimulation_object = b_farm_Priming_scenarios,
                    legend.position = "none") +
   labs(title = "NPV Distribution with No Prming \nand Different Stresses for Larger Farms")+
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")) + # order y-axis and legend
+  scale_y_discrete(limits = c(  "heat stress","salt stress","no stress"))  # << critical: y-axis order
 
 
-plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
+ggsave( paste0("Final_Report/graphs/no_priming_bfarm",".tiff"), no_priming_bfarm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
+
+
+heat_priming_bfarm <- plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
                    vars = c("H_K_NPV","H_H_NPV","H_S_NPV"),
                    method = 'boxplot', 
                    old_names = c("H_K_NPV","H_H_NPV","H_S_NPV"),
@@ -404,9 +581,18 @@ plot_distributions(mcSimulation_object = b_farm_Priming_scenarios,
                    legend.position = "none") +
   labs(title = "NPV Distribution with Heat Prming \nand Different Stresses for Larger Farms")+
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")) + # order y-axis and legend
+  scale_y_discrete(limits = c(  "heat stress","salt stress","no stress"))  # << critical: y-axis order
 
-plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
+
+ggsave( paste0("Final_Report/graphs/heat_priming_bfarm",".tiff"), heat_priming_bfarm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
+
+
+salt_priming_bfarm <- plot_distributions(mcSimulation_object = b_farm_Priming_scenarios, 
                    vars = c("S_K_NPV","S_H_NPV","S_S_NPV"),
                    method = 'boxplot', 
                    old_names = c("S_K_NPV","S_H_NPV","S_S_NPV"),
@@ -416,18 +602,29 @@ plot_distributions(mcSimulation_object = b_farm_Priming_scenarios,
                    legend.position = "none") +
   labs(title = "NPV Distribution with Salt Prming \nand Different Stresses for Larger Farms")+
   theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(
+    values = c("no stress" = "#009E73", "salt stress" = "#56B4E9", "heat stress" = "tomato"),
+    breaks = c("no stress", "salt stress", "heat stress")) + # order y-axis and legend
+  scale_y_discrete(limits = c(  "heat stress","salt stress","no stress"))  # << critical: y-axis order
 
 
+ggsave( paste0("Final_Report/graphs/salt_priming_bfarm",".tiff"), salt_priming_bfarm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
-plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
+
+cashflow_KK_HK_bfarm <- plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
               cashflow_var_name = "Cashflow_H_K",
               facet_labels = "Cash Flow Comparison Between No Priming \nand Heat Priming for Larger Farms" )
 
-plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
+ggsave( paste0("Final_Report/graphs/cashflow_KK_HK_bfarm",".tiff"), cashflow_KK_HK_bfarm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
+
+cashflow_KK_SK_bfarm <- plot_cashflow(mcSimulation_object = s_farm_Priming_scenarios, 
               cashflow_var_name = "Cashflow_S_K",
               facet_labels ="Cash Flow Comparison Between No Priming \nand Salt Priming for Larger Farms" )
-
+ggsave( paste0("Final_Report/graphs/cashflow_KK_SK_bfarm",".tiff"), cashflow_KK_SK_bfarm, 
+        width = 12, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 
 #  ---- EVPI b farm  ----
@@ -465,7 +662,7 @@ b_farm_EVPI_filtered14 <- b_farm_EVPI14 %>%
   mutate(Variable = factor(Variable, levels = Variable)) # Reorder factor based on EVPI
 
 # Create the horizontal bar plot
-ggplot(b_farm_EVPI_filtered14, aes(x = reorder(Variable, EVPI), y = EVPI)) + 
+evpi_KK_HK_bfarm <- ggplot(b_farm_EVPI_filtered14, aes(x = reorder(Variable, EVPI), y = EVPI)) + 
   geom_bar(stat = "identity",fill = "tomato") + 
   coord_flip() + 
   labs(x = "Variable", y = "EVPI [€/m²]", title = "EVPI (no Priming or Heat Priming)") + 
@@ -474,7 +671,8 @@ ggplot(b_farm_EVPI_filtered14, aes(x = reorder(Variable, EVPI), y = EVPI)) +
                               "Yield_type_1" = "Yield of none primed tomato [kg/m2]")) +  # Change labels
   theme_minimal()
 
-
+ggsave( paste0("Final_Report/graphs/evpi_KK_HK_bfarm",".tiff"), evpi_KK_HK_bfarm, 
+        width = 14, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 
 #  ---- EVPI b farm  KK - SK  ----
@@ -498,7 +696,7 @@ b_farm_EVPI_filtered17 <- b_farm_EVPI17 %>%
   mutate(Variable = factor(Variable, levels = Variable)) # Reorder factor based on EVPI
 
 # Create the horizontal bar plot
-ggplot(b_farm_EVPI_filtered17, aes(x = reorder(Variable, EVPI), y = EVPI)) +
+evpi_KK_SK_bfarm <- ggplot(b_farm_EVPI_filtered17, aes(x = reorder(Variable, EVPI), y = EVPI)) +
   geom_bar(stat = "identity",  fill = "#56B4E9") +
   coord_flip() +
   labs(x = "Variable", y = "EVPI [€/m²]", title = "EVPI (no Priming or Salt Priming)")+
@@ -509,7 +707,8 @@ ggplot(b_farm_EVPI_filtered17, aes(x = reorder(Variable, EVPI), y = EVPI)) +
   theme_minimal()
 
 
-
+ggsave( paste0("Final_Report/graphs/evpi_KK_SK_bfarm",".tiff"), evpi_KK_SK_bfarm, 
+        width = 14, height = 8, units = 'cm', dpi = 750, compression = "lzw")
 
 # ---- Explain EVPI ----
 
@@ -540,23 +739,300 @@ ggplot(b_farm_EVPI_filtered17, aes(x = reorder(Variable, EVPI), y = EVPI)) +
 
 
 #  ---- PLS  ----
-#Cory
+
+# check again.!!
+
 #PLS
-Priming_scenarios1 <- Priming_scenarios
+Priming_scenarios1 <- b_farm_Priming_scenarios
 Priming_scenarios1$x<-Priming_scenarios1$x[,which(!colnames(Priming_scenarios1$x)=="Scenario")]
 
 legend_table<-read.csv("Final_Report/baseline.csv", fileEncoding = "UTF-8-BOM")
 
-#PLS for Heat priming + no stress
-pls_out<-plsr.mcSimulation(object=Priming_scenarios1, 
-                           resultName = names(Priming_scenarios1$y)[4])
+#PLS for Heat priming - no priming under control
+pls_out_HK_KK<-plsr.mcSimulation(object=Priming_scenarios1, 
+                           resultName = names(Priming_scenarios1$y)[12])
 
 
-plot_pls(pls_out,input_table=legend_table, cut_off_line = 0.8)
+#plot_pls(pls_out_HK_KK,input_table=legend_table, cut_off_line = 0.8)
+plot_pls(pls_out_HK_KK,cut_off_line = 1, threshold = 0.8,
+         x_axis_name = "Variable Importance in Projection")+
+  labs( title = "the Variable Importance in the Projection (VIP) 
+        of \nno Priming and Heat Priming without stress")+
+  scale_y_discrete(labels = c("Yield_type_4" = "Yield of Heat primed tomato [kg/m2]", 
+                              "Jungepflanzen_Priming" = "primed seedling cost",
+                              "Yield_type_1" = "Yield of none primed tomato [kg/m2]"))
+  
 
-# PLS for Salt priming + no stress
-pls_out7<-plsr.mcSimulation(object=Priming_scenarios1, 
-                            resultName = names(Priming_scenarios1$y)[7])
 
 
-plot_pls(pls_out7,input_table=legend_table, cut_off_line = 0.8)
+# PLS for Salt priming - no priming under control
+pls_out_SK_KK<-plsr.mcSimulation(object=Priming_scenarios1, 
+                            resultName = names(Priming_scenarios1$y)[15])
+
+
+plot_pls(pls_out_SK_KK,cut_off_line = 1, threshold = 0.8,
+         x_axis_name = "Variable Importance in Projection")+
+  labs( title = "the Variable Importance in the Projection (VIP) of 
+        \nno Priming and Salt Priming without stress")+
+  scale_y_discrete(labels = c("Yield_type_7" = "Yield of Salt primed tomato [kg/m2]", 
+                              "Jungepflanzen_Priming" = "primed seedling cost",
+                              "Yield_type_1" = "Yield of none primed tomato [kg/m2]",
+                              "Hummel_Nutzlinge" = "bio. plant protection cost [€/m2]"))
+"#56B4E9"
+"tomato"
+#---- NPV from difference ---- 
+NPV_H_K_NPV_K_K <- decisionSupport::plot_distributions(
+  mcSimulation_object = Priming_simulation, 
+  vars = c("NPV_H_K_NPV_K_K"),
+  method = 'boxplot_density', 
+  old_names = c("NPV_H_S_NPV_K_S"),
+  new_names = c("NPV difference"),
+  base_size = 10,
+  colors = c("tomato")) +
+  theme_bw() +
+  theme( 
+         legend.position = "none",
+         axis.title.x = element_blank(),
+         axis.title.y = element_blank(),
+         legend.title = element_blank(),
+         strip.text = element_blank()) 
+
+# ggsave( paste0("Final_Report/graphs/all_farms/NPV_H_K_NPV_K_K",".png"), NPV_H_K_NPV_K_K, 
+#         width = 14, height = 8, units = 'cm', dpi = 750)
+
+
+
+
+plot_cashflow(mcSimulation_object = Priming_simulation, 
+                               cashflow_var_name = "Cashflow_HK_KK",
+                               y_axis_name = "Cashflow [€/m²]",
+                               facet_labels = "Cash Flow Comparison Between No Priming \nand Heat Priming",
+                               base_size = 14,
+              color_25_75 = "coral")
+
+
+
+plot_cashflow(mcSimulation_object = Priming_simulation, 
+                                cashflow_var_name = "Cashflow_SK_KK",
+                                y_axis_name = "Cashflow [€/m²]",
+                                facet_labels ="Cash Flow Comparison Between No Priming \nand Salt Priming",
+                                base_size = 14,
+              color_25_75 = "lightskyblue")
+
+
+
+plot_distributions(mcSimulation_object = Priming_simulation, 
+                   vars = c("NPV_H_K_NPV_K_K","NPV_S_K_NPV_K_K"),
+                   method = 'boxplot', 
+                   old_names = c("NPV_H_K_NPV_K_K","NPV_S_K_NPV_K_K"),
+                   new_names = c("No Priming vs. Heat Priming",
+                                 "No Priming vs. Salt Priming"),
+                   base_size = 10,
+                   legend.position = "none",
+                   x_axis_name = "Outcome distribution [€/m²]",
+                   y_axis_name = "Comaparison options") +
+  labs(title = "Distribution of NPV Comparison between \nNo Priming and Heat or Salt Priming")+
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(values = c( "No Priming vs. Heat Priming" = "#ff876e", 
+                                "No Priming vs. Salt Priming" = "#7cc3ee"))
+
+
+# Cash flow table
+  # Use `sapply` to compute the mean for each column
+  means <- sapply(Priming_simulation$y[, grepl("^Cashflow.*_KK", names(Priming_simulation$y))], mean)
+  medians <- sapply(Priming_simulation$y[, grepl("^Cashflow.*_KK", names(Priming_simulation$y))], median)
+  cf_05 <- sapply(Priming_simulation$y[, grepl("^Cashflow.*_KK", names(Priming_simulation$y))], function(x) quantile(x, 0.05))
+  cf_25 <- sapply(Priming_simulation$y[, grepl("^Cashflow.*_KK", names(Priming_simulation$y))], function(x) quantile(x, 0.25))
+  cf_75 <- sapply(Priming_simulation$y[, grepl("^Cashflow.*_KK", names(Priming_simulation$y))], function(x) quantile(x, 0.75))
+  cf_95 <- sapply(Priming_simulation$y[, grepl("^Cashflow.*_KK", names(Priming_simulation$y))], function(x) quantile(x, 0.95))
+  
+  # Convert to a data frame for display
+ Cashflow <-  data.frame("Cashflow" = names(means), cf_5 = round(cf_05,2), Q1 =round(cf_25, 2), 
+                         Median = round(medians,2), Mean = round(means, 2), Q3 =round(cf_75, 2), cf_95 = round(cf_95,2))
+ names(Cashflow)[1]<-paste("Annual Cash flow")
+ names(Cashflow)[2]<-paste("5% Quantile [€/m²]")
+ names(Cashflow)[3]<-paste("25% Quantle [€/m²]")
+ names(Cashflow)[4]<-paste("Median [€/m²]")
+ names(Cashflow)[5]<-paste("Mean (50%) [€/m²]")
+ names(Cashflow)[6]<-paste("75% Quantile [€/m²]")
+ names(Cashflow)[7]<-paste("95% Quantile [€/m²]")
+ library(dplyr)
+ Cashflow_1 <- tail(Cashflow,n =10)             
+print(Cashflow_1$`Median [€/m²]`)
+library(ggplot2)
+
+
+
+# NPV tables
+
+
+summary_simulaton <- summary(Priming_simulation$y)
+summary_simulaton_table <- as.data.frame(summary_simulaton)
+
+summary_simulaton_table <- summary_simulaton_table %>%
+  as.data.frame() %>%
+  filter(grepl("K_K_NPV", Var2) | grepl("H_K_NPV", Var2)| grepl("S_K_NPV", Var2) | grepl("^Cashflow.*_KK", Var2))
+
+# NPV distribution plots
+Priming_simulation_y <- Priming_simulation$y %>%
+  dplyr::select (c("K_K_NPV", "H_K_NPV", "S_K_NPV", "NPV_H_K_NPV_K_K", "NPV_S_K_NPV_K_K"))%>%
+  tidyr::pivot_longer(cols = c("K_K_NPV", "H_K_NPV", "S_K_NPV", "NPV_H_K_NPV_K_K", "NPV_S_K_NPV_K_K"),
+                      names_to = "name", values_to = "value") %>%
+  dplyr::mutate(name = dplyr::recode(name, 
+                                     "K_K_NPV" = "NPV without priming",
+                                     "H_K_NPV" = "NPV with heat priming",
+                                     "S_K_NPV" = "NPV with salt priming",
+                                     "NPV_H_K_NPV_K_K" = "NPV comparison between heat primed and non-primed", 
+                                     "NPV_S_K_NPV_K_K"= "NPV comparison between salt primed and non-primed"))
+
+data <- data.frame(percentage = c(0.1, 0.15, 0.5, 4), 
+                   options_difference = c(100, 11229249, 58838895, 507997898))
+regression <- stats::lm(percentage ~ options_difference, 
+                        data = data)
+options_difference <- max(Priming_simulation_y$value) - 
+  min(Priming_simulation_y$value)
+boxploth_width_correction <- stats::coefficients(regression)[[1]] + 
+  (stats::coefficients(regression)[[2]] * options_difference)
+
+
+# Cash flow table
+# Use `sapply` to compute the mean for each column
+NPV_means <- sapply(Priming_simulation$y[, grepl("*K_NPV_K_K", names(Priming_simulation$y))], mean)
+NPV_medians <- sapply(Priming_simulation$y[, grepl("*K_NPV_K_K", names(Priming_simulation$y))], median)
+NPV_cf_05 <- sapply(Priming_simulation$y[, grepl("*K_NPV_K_K", names(Priming_simulation$y))], function(x) quantile(x, 0.05))
+NPV_cf_95 <- sapply(Priming_simulation$y[, grepl("*K_NPV_K_K", names(Priming_simulation$y))], function(x) quantile(x, 0.95))
+
+# Convert to a data frame for display
+NPV_Table_2 <-  data.frame("NPV" = names(NPV_means), cf_5 = round(NPV_cf_05,2), 
+                        Median = round(NPV_medians,2), Mean = round(NPV_means, 2), cf_95 = round(NPV_cf_95,2))
+names(NPV_means)[1]<-paste("NPV")
+names(NPV_means)[2]<-paste("5% Quantile [€/m²]")
+names(NPV_means)[3]<-paste("Median [€/m²]")
+names(NPV_means)[4]<-paste("Mean (50%) [€/m²]")
+names(NPV_means)[5]<-paste("95% Quantile [€/m²]")
+
+
+
+
+
+
+
+
+  NPV_no_priming <- Priming_simulation_y %>% filter(name %in% c("NPV without priming")) %>%
+    ggplot(aes(x = value, fill = name)) +
+    geom_density(mapping = aes(y = after_stat(count)),alpha = 0.4, size = 0.7, fill = "#009E73") + # Create density plot with transparency and line size
+    xlim( (min(Priming_simulation_y$value) - max(Priming_simulation_y$value)/5),
+          (max(Priming_simulation_y$value) + max(Priming_simulation_y$value)/5))+
+    geom_boxplot(aes(y = 0),alpha = 0.4, outlier.size = 0.2, outlier.alpha = 0.2, fill = "#009E73",
+                 varwidth = TRUE, size = 0.3, width = 10) + # Reduce outlier size and make them half transparent
+    theme_minimal() +
+    annotate("text",x = -450,y = 45,
+             label = 'atop(bold("No Priming"))',size = 4,parse = TRUE) +
+    theme(
+      axis.title = element_text(size = 15, colour = "black"),
+      axis.text = element_text(size = 12,colour = "black"),
+      axis.ticks.y = element_line(), 
+      axis.ticks.x = element_line(), 
+      axis.title.x = element_blank(),
+      axis.text.x = element_blank(),
+      legend.position = "none") +
+    labs( x = "Outcome distribution [€/m²]", y = "Frequency") +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5)
+
+
+  NPV_heat_priming <- Priming_simulation_y %>% filter(name %in% c("NPV with heat priming")) %>%
+    ggplot(aes(x = value, fill = name)) +
+    geom_density(mapping = aes(y = after_stat(count)),alpha = 0.4, size = 0.7, fill = "tomato") + # Create density plot with transparency and line size
+    xlim( (min(Priming_simulation_y$value) - max(Priming_simulation_y$value)/5),
+          (max(Priming_simulation_y$value) + max(Priming_simulation_y$value)/5))+
+    geom_boxplot(aes(y = 0),alpha = 0.4, outlier.size = 0.2, outlier.alpha = 0.2, fill = "tomato",
+                 varwidth = TRUE, size = 0.3, width = 10) + # Reduce outlier size and make them half transparent
+    theme_minimal() +
+    annotate("text",x = -450,y = 40,
+             label = 'atop(bold("Heat Priming"))',size = 4,parse = TRUE) +
+    theme(
+      axis.title = element_text(size = 15, colour = "black"),
+      axis.text = element_text(size = 12,colour = "black"),
+      axis.ticks.y = element_line(),
+      axis.ticks.x = element_line(), 
+      axis.text.x = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      legend.position = "none") +
+    labs( x = "Outcome distribution [€/m²]", y = "Frequency") +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5)
+  
+  
+  NPV_salt_priming <- Priming_simulation_y %>% filter(name %in% c("NPV with heat priming")) %>%
+    ggplot(aes(x = value, fill = name)) +
+    geom_density(mapping = aes(y = after_stat(count)),alpha = 0.4, size = 0.7, fill = "#56B4E9") + # Create density plot with transparency and line size
+    xlim( (min(Priming_simulation_y$value) - max(Priming_simulation_y$value)/5),
+          (max(Priming_simulation_y$value) + max(Priming_simulation_y$value)/5))+
+    geom_boxplot(aes(y = 0),alpha = 0.4, outlier.size = 0.2, outlier.alpha = 0.2, fill = "#56B4E9",
+                 varwidth = TRUE, size = 0.3, width = 10) + # Reduce outlier size and make them half transparent
+    theme_minimal() +
+    annotate("text",x = -450,y = 38,
+             label = 'atop(bold("Salt Priming"))',size = 4,parse = TRUE) +
+    theme(
+      axis.title = element_text(size = 15, colour = "black"),
+      axis.text = element_text(size = 12,colour = "black"),
+      axis.ticks.y = element_line(), 
+      axis.title.y = element_blank(),
+      legend.position = "none") +
+    labs( x = "Outcome distribution [€/m²]", y = "Frequency") +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5)
+  
+  
+library(ggpubr)  
+  merged_distribution_boxplots <-
+    ggarrange( NPV_heat_priming,NPV_no_priming,NPV_salt_priming,
+      ncol = 1,nrow = 3,align = "v")  
+  
+
+  
+  NPV_comparison_heat_priming <- Priming_simulation_y %>% filter(name %in% c("NPV comparison between heat primed and non-primed")) %>%
+    ggplot(aes(x = value, fill = name)) +
+    geom_density(mapping = aes(y = after_stat(count)),alpha = 0.4, size = 0.7, fill = "tomato") + # Create density plot with transparency and line size
+    xlim( (min(Priming_simulation_y$value) - max(Priming_simulation_y$value)/5),
+          (max(Priming_simulation_y$value) + max(Priming_simulation_y$value)/5))+
+    geom_boxplot(aes(y = 0),alpha = 0.4, outlier.size = 0.2, outlier.alpha = 0.2, fill = "tomato",
+                 varwidth = TRUE, size = 0.3, width = 10) + # Reduce outlier size and make them half transparent
+    theme_minimal() +
+    theme(
+      axis.title = element_text(size = 15, colour = "black"),
+      axis.text = element_text(size = 12,colour = "black"),
+      axis.ticks.y = element_line(),
+      axis.ticks.x = element_line(), 
+      axis.text.x = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      legend.position = "none") +
+    labs( x = "Outcome distribution [€/m²]", y = "Frequency") +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5)
+  
+  
+  NPV_comparison_salt_priming <- Priming_simulation_y %>% filter(name %in% c("NPV comparison between salt primed and non-primed")) %>%
+    ggplot(aes(x = value, fill = name)) +
+    geom_density(mapping = aes(y = after_stat(count)),alpha = 0.4, size = 0.7, fill = "#56B4E9") + # Create density plot with transparency and line size
+    xlim( (min(Priming_simulation_y$value) - max(Priming_simulation_y$value)/5),
+          (max(Priming_simulation_y$value) + max(Priming_simulation_y$value)/5))+
+    geom_boxplot(aes(y = 0),alpha = 0.4, outlier.size = 0.2, outlier.alpha = 0.2, fill = "#56B4E9",
+                 varwidth = TRUE, size = 0.3, width = 10) + # Reduce outlier size and make them half transparent
+    theme_minimal()  +
+    theme(
+      axis.title = element_text(size = 15, colour = "black"),
+      axis.text = element_text(size = 12,colour = "black"),
+      axis.ticks.y = element_line(), 
+      axis.title.y = element_blank(),
+      axis.title.x = element_blank(),
+      legend.position = "none") +
+    labs( x = "Outcome distribution [€/m²]", y = "Frequency") +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "red", linewidth = 0.5)
+  
+  
+  library(ggpubr)  
+  merged_distribution_boxplots_comparison <-
+    ggarrange( NPV_comparison_heat_priming,NPV_comparison_salt_priming,
+               ncol = 1,nrow = 2,align = "v")  
+  

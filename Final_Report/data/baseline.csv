@@ -1,0 +1,37 @@
+variable,label,lower,upper,distribution,description
+Yield_type_1,mean yield kein Priming- keine Behandlung,43.998,46.907,posnorm,"berechneter CV, SD and 90% confidence interval"
+Yield_type_2,mean yield kein Priming- Hitze,25.422,29.02,posnorm,
+Yield_type_3,mean yield kein Priming - Salz,26.258,29.307,posnorm,
+Yield_type_4,mean yield Hitze - keine Behandlung,41.649,44.814,posnorm,
+Yield_type_5,mean yield Hitze - Hitze,29.402,33.786,posnorm,
+Yield_type_6,mean yield Hitze - Salz,26.77,29.868,posnorm,
+Yield_type_7,mean yield Salz - keine Behandlung,42.107,45.206,posnorm,
+Yield_type_8,mean yield Salz - Hitze,25.944,29.447,posnorm,
+Yield_type_9,mean yield Salz -Salz,24.461,27.351,posnorm,
+Tomaten_Preis,mean tomato preis,1.33,2.75,posnorm,"25, 27 quatile  von 10 Jahren Tomaten preis BMEL Statistik: https://open-data.ble.de/dataset/markt-und-preisbericht-obst-und-gemuese"
+Saatgut,mean saatgut preis,2.31,2.49,posnorm,Preis für Farm 2 & 3 wurde von farm 1 berechnet. 1.6-1.7pf./qm
+Jungepflanzen,mean Jungepflanuen preis,3.42,3.70,posnorm,Preis für Farm 2 & 3 wurde von farm 1 berechnet. 1.6-1.7pf./qm
+Jungepflanzen_Priming,estimate Jungepflanzen preis,1.00,5.00,posnorm,
+Substrat,mean substrat preis,2.44,4.56,posnorm,
+Energie_therm,mean thermische energie preis,37.47,40.60,posnorm,Gaspreis12ct/kWh
+Energie_elek,mean elektrische Energie preis,7.42,9.98,posnorm,Strompreis 10.51ct/kWh
+CO2_H2O_Due,"mean CO2, Wasser und Dünger Preis",8.03,11.51,posnorm,
+Kordel,mean Kordel Preis,0.93,1.03,posnorm,
+Hummel_Nutzlinge,mean Hummel und Nutzling Preis,1.83,2.51,posnorm,
+PSM_chem,mean chemische Pflanzenschutzmittel Preis,0.71,0.78,posnorm,
+Heackseln_Entsorgung,mean Häckseln und Entsorgungspreis,0.25,0.31,posnorm,
+Desinfektion,mean Desinfektion Pries,0.05,0.07,posnorm,
+Versicherung,Mean Versichrungspreis,0.86,1.06,posnorm,
+Arbeit,Mean Arbeitspreis,20.13,25.40,posnorm,"Farm2&3 lower: 18€ leiharbeiter, upper: 50000€ Brutto Gärtner"
+discount_rate,diacount rate,0.88,4,norm,https://www.bundesbank.de/de/statistiken/geld-und-kapitalmaerkte/zinssaetze-und-rendi[…]zinssaetze-gemaess-253-abs-2-hgb-7-jahresdurchschnitt-650652
+n_years,simulation year,5.00,5.00,const,
+var_CV_Yield_type_1,cofficient variation: kein Priming- keine Behandlung,55.972,55.972,const,That is calculated with the raw data from LWK 
+var_CV_Yield_type_2,cofficient variation: kein Priming - Hitze,89.881,89.881,const,
+var_CV_Yield_type_3,cofficient variation: kein Priming - Salz,91.539,91.539,const,
+var_CV_Yield_type_4,cofficient variation: Hitze - keine Behandlung,65.775,65.775,const,
+var_CV_Yield_type_5,cofficient variation: Hitze - Hitze,95.364,95.364,const,
+var_CV_Yield_type_6,cofficient variation: Hitze -Salz,98.263,98.263,const,
+var_CV_Yield_type_7,cofficient variation: Salz - keine Behandlung,63.793,63.793,const,
+var_CV_Yield_type_8,cofficient variation: Salz -Hitze,86.921,86.921,const,
+var_CV_Yield_type_9,cofficient variation: Salz - Salz,100.213,100.213,const,
+var_CV_Tomaten_Preis,cofficient variation: Tomaten Preis,34.00,35.00,posnorm,Calculated from the data BMEL Tomaten Preis
